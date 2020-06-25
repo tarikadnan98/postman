@@ -1,0 +1,1567 @@
+{
+  "info": {
+    "_postman_id": "ea062a72-1df6-4ef0-8c2b-65ffbd260d76",
+    "name": "Eagle",
+    "description": "Eagle App for Telenor Myanmar",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authorization",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "9719fc4e-4c64-4445-8989-686cdeaa28e1",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "caf3ef52-5af5-45a8-b564-2e5bd07eeab3",
+                "exec": [
+                  "//postman.setNextRequest('Get OTP Bypass');",
+                  "pm.sendRequest({",
+                  "    url: pm.environment.get(\"URL\") + 'get/otp',",
+                  "    method: 'POST',",
+                  "    header: {",
+                  "        \"Content-Type\": \"application/json\"",
+                  "    },",
+                  "    body: {",
+                  "        mode: 'raw',",
+                  "        raw: JSON.stringify({ msisdn: pm.environment.get(\"MSISDN\"), mpin: pm.environment.get(\"MPIN\") })",
+                  "    }",
+                  "}, function (err, res) {",
+                  "    postman.setEnvironmentVariable(\"OTP\", res.json().data.otp);",
+                  "",
+                  "    pm.sendRequest({",
+                  "        url: pm.environment.get(\"URL\") + 'verify-otp',",
+                  "        method: 'POST',",
+                  "        header: {",
+                  "            \"Content-Type\": \"application/json\"",
+                  "        },",
+                  "        body: {",
+                  "            mode: 'raw',",
+                  "            raw: JSON.stringify({ msisdn: pm.environment.get(\"MSISDN\"), otp: pm.environment.get(\"OTP\") })",
+                  "        }",
+                  "    }, function (err, res) {",
+                  "        if (res.json().status) {",
+                  "            postman.setEnvironmentVariable(\"ACCESS_TOKEN\", res.json().data.access_token);",
+                  "            postman.setEnvironmentVariable(\"USER_ID\", res.json().data.user_id);",
+                  "        }",
+                  "    });",
+                  "});",
+                  "",
+                  "// pm.test(\"Status code is 200\", function () {",
+                  "//     pm.response.to.have.status(200);",
+                  "// });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "95b0a411-fdfb-4924-a0b3-f3a80a0c92f6",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "Eagle/99.3",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "loginType",
+                  "value": "partner",
+                  "type": "text"
+                },
+                {
+                  "key": "msisdn",
+                  "value": "{{MSISDN}}",
+                  "type": "text"
+                },
+                {
+                  "key": "mpin",
+                  "value": "{{MPIN}}",
+                  "type": "text"
+                }
+              ],
+              "options": {
+                "formdata": {}
+              }
+            },
+            "url": "{{URL}}login"
+          },
+          "response": []
+        },
+        {
+          "name": "Get OTP Bypass",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "407c1991-22ce-4701-a32f-1d25f5b3f0d6",
+                "exec": [
+                  "//var jsonData = JSON.parse(responseBody);",
+                  "//postman.setEnvironmentVariable(\"OTP\", jsonData.data.otp);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "bea468e9-7608-4fa3-ab88-b40b9ece99d1",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "ace59c5a-176a-48d6-be7b-ea20086fb67d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "msisdn",
+                  "value": "{{MSISDN}}",
+                  "type": "text"
+                },
+                {
+                  "key": "mpin",
+                  "value": "{{MPIN}}",
+                  "type": "text"
+                }
+              ],
+              "options": {
+                "formdata": {}
+              }
+            },
+            "url": "{{URL}}get/otp"
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "2862f557-cb12-4476-8699-07bdf6383350",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "",
+                  "if (jsonData.status) {",
+                  "    postman.setEnvironmentVariable(\"ACCESS_TOKEN\", jsonData.data.access_token);",
+                  "    postman.setEnvironmentVariable(\"USER_ID\", jsonData.data.user_id);",
+                  "}",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "5d11ccf4-04af-446c-a35c-419f69707d4b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "msisdn",
+                  "value": "{{MSISDN}}",
+                  "type": "text"
+                },
+                {
+                  "key": "otp",
+                  "value": "{{OTP}}",
+                  "type": "text"
+                }
+              ],
+              "options": {
+                "formdata": {}
+              }
+            },
+            "url": "{{URL}}verify-otp"
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid Token Bypass",
+          "_postman_id": "fe577fd5-acad-440d-9c93-fe506b6fa9e7",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{URL}}invalid/token/9771104956"
+          },
+          "response": []
+        },
+        {
+          "name": "https://mytm.telenor.com.mm/mytmapi/v1/en/associate/profile?userid=890809",
+          "_postman_id": "980215f9-5e3c-45a1-b321-a1d9ad2ffad5",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "Bearer 53250fbb8d8f1098bd3b7ac0d29267e9"
+              },
+              {
+                "key": "User-Agent",
+                "value": "MyTM/50.47.6/Android/26"
+              },
+              {
+                "key": "X-Server-Select",
+                "value": "preprod"
+              },
+              {
+                "key": "Connection",
+                "value": "Keep-Alive"
+              },
+              {
+                "key": "Accept-Encoding",
+                "value": "gzip"
+              },
+              {
+                "key": "If-Modified-Since",
+                "value": "Thu, 25 Jun 2020 05:27:32 GMT"
+              }
+            ],
+            "url": {
+              "raw": "https://mytm.telenor.com.mm/mytmapi/v1/en/associate/profile?userid=890809",
+              "protocol": "https",
+              "host": [
+                "mytm",
+                "telenor",
+                "com",
+                "mm"
+              ],
+              "path": [
+                "mytmapi",
+                "v1",
+                "en",
+                "associate",
+                "profile"
+              ],
+              "query": [
+                {
+                  "key": "userid",
+                  "value": "890809"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "ba984f50-8b62-429e-b46d-a4fb08898f77"
+    },
+    {
+      "name": "Salesperson",
+      "item": [
+        {
+          "name": "Add Salesperson",
+          "_postman_id": "114f20be-0ff1-44d3-a91c-2ea986c7a216",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"msisdn\": \"1591591591\",\n\t\"name\": \"Vui Four Wang\",\n\t\"loginStatus\": true,\n\t\"posUserID\": 1,\n\t\"mpin\": 1111\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}salespersons"
+          },
+          "response": []
+        },
+        {
+          "name": "Salesperson List by Pos ID",
+          "_postman_id": "232db494-eae7-4f91-a9ea-3306d7d48aa3",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{URL}}salespersons/1"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout Everyone",
+          "_postman_id": "5d74b9c9-8339-48c9-8151-842d6f0fa376",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"posId\": 1,\n\t\"mpin\": \"1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}salespersons/logout/everyone"
+          },
+          "response": []
+        },
+        {
+          "name": "Login Everyone",
+          "_postman_id": "7b063667-3620-4a3e-864f-3719ab6c9bb6",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"posId\": 1,\n\t\"mpin\": \"1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}salespersons/login/everyone"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "74b2b0f2-46f6-470d-9476-3613a072b17f"
+    },
+    {
+      "name": "E-Load",
+      "item": [
+        {
+          "name": "E-Load List",
+          "_postman_id": "530a241f-b20a-4838-af12-e321152f8067",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": "{{URL}}sale/eload"
+          },
+          "response": []
+        },
+        {
+          "name": "Pack List [Data/Voice/Promo/Others]",
+          "_postman_id": "639a3c78-e364-43f6-9c03-2efa19f7964a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "GET",
+            "header": [],
+            "url": "{{URL}}sale/pack/other"
+          },
+          "response": []
+        },
+        {
+          "name": "E-Load Purchase",
+          "_postman_id": "f630a3df-cdc7-45d5-943f-dd3838396f21",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"msisdn\": \"9791000588\",\n\t\"amount\": 2000,\n\t\"posMsisdn\": \"9784445541\",\n\t\"mpin\": \"1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}sale/eload"
+          },
+          "response": []
+        },
+        {
+          "name": "Wrong Recharge Reversal",
+          "_postman_id": "d0d033af-9d3c-4756-80fd-f74d9a79fa5e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"transactionID\": \"67523267\",\n\t\"eloadAmount\": 200,\n\t\"msisdn\": \"9791000588\",\n\t\"posMsisdn\": \"9771104956\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}recharge/reversal"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "28c536ce-370b-45be-b00b-2e019773805f"
+    },
+    {
+      "name": "USIM",
+      "item": [
+        {
+          "name": "USIM Replacement",
+          "_postman_id": "71cbad7e-f1a5-4e35-a8f3-f3788778c18d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"customerMsisdn\": \"1111111111\",\n\t\"imsi\": \"9999999999\",\n\t\"posMsisdn\": \"9790100595\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}usim/replacement",
+            "description": "\t\t\t"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "e1111d1c-b46c-4113-8f1f-5377a197f4dc"
+    },
+    {
+      "name": "Change Ownership",
+      "item": [
+        {
+          "name": "Check Ownership",
+          "_postman_id": "eb53af21-7860-4711-bcb3-6aef9996b08d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"msisdn\": \"9791000588\",\n\t\"posMsisdn\": \"9790100595\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}usim/ownership/check",
+            "description": "This endpoint generates a OTP and Send that to Customer MSISDN and stores @ DB for Verification purpose"
+          },
+          "response": []
+        },
+        {
+          "name": "Check Ownership Response",
+          "_postman_id": "03013374-c4bf-4aa5-93bc-39cd2de5e08c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"msisdn\": \"9791000588\",\n\t\"otp\": 2289,\n\t\"posMsisdn\": \"9771104956\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}usim/ownership/response"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "f9b01509-168b-4225-a342-e6694f6cb99b"
+    },
+    {
+      "name": "Commission",
+      "item": [
+        {
+          "name": "POS",
+          "item": [
+            {
+              "name": "POS Commission ",
+              "_postman_id": "3f1482fd-0d9e-4bf7-bd93-0169cf6e98ee",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": {
+                    "token": "{{ACCESS_TOKEN}}"
+                  }
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "{{URL}}pos/9764036998/commission"
+              },
+              "response": []
+            }
+          ],
+          "_postman_id": "3b60cd1e-7bfc-4f38-bd2f-a595cfe61a10",
+          "_postman_isSubFolder": true
+        }
+      ],
+      "_postman_id": "3a5dba75-1068-42a8-ae58-802232c25c05"
+    },
+    {
+      "name": "Profile & Cover Photo Remove",
+      "item": [
+        {
+          "name": "Profile & Cover Photo Remove API ",
+          "_postman_id": "65dfe192-cdfe-40da-9b3e-11e51db80067",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"userId\": 1,\n\t\"removeFrom\": \"profile\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}users/photo/remove"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "5bf82a58-9cd2-47f5-a23f-20f59776f1c4"
+    },
+    {
+      "name": "Transaction Log",
+      "item": [
+        {
+          "name": "Transaction Log by Me",
+          "_postman_id": "a258ac7e-f314-4363-8af6-7626e1f5b969",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "GET",
+            "header": [],
+            "url": "{{URL}}transactions/logs/me/1"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "a8b78268-40d5-43f6-be60-8b663783688c"
+    },
+    {
+      "name": "Powerload",
+      "item": [
+        {
+          "name": "Show Offers",
+          "_postman_id": "57bb179e-0232-42fc-8e37-9778a70405a3",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"msisdn\": \"9791000606\",\n  \"mpin\": \"1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}powerload/show-offers"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "2937b485-e4b8-42ca-b7c7-9e2d582912ac"
+    },
+    {
+      "name": "News",
+      "item": [
+        {
+          "name": "News Category List",
+          "_postman_id": "f0eecba1-494c-4af3-87c9-ad1b467dae6e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "GET",
+            "header": [],
+            "url": "{{URL}}news/categories"
+          },
+          "response": []
+        },
+        {
+          "name": "News List",
+          "_postman_id": "04999e50-44ba-4ac8-be33-cf635a2af17e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "GET",
+            "header": [],
+            "url": "{{URL}}news/list/{{MSISDN}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Like News",
+          "_postman_id": "b816d388-46a1-49a1-88e4-781c9d40b582",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "Eagle/99.3",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"newsId\": 1,\n\t\"msisdn\": \"9784445541\",\n\t\"action\": 1,\n\t\"behaviour\": \"Like\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}news/change/attribute"
+          },
+          "response": []
+        },
+        {
+          "name": "Bookmark News",
+          "_postman_id": "4930b3d6-ee77-44c4-9ddf-429e2c8c802f",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"newsId\": 1,\n\t\"msisdn\": \"9784445541\",\n\t\"action\": 1,\n\t\"behaviour\": \"Bookmark\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}news/change/attribute"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "ccc2b5ff-9921-4d38-9880-5bc5521f1de5"
+    },
+    {
+      "name": "Sale_For CSE",
+      "item": [
+        {
+          "name": "Low sim post list",
+          "_postman_id": "7b4df41d-d5d2-49dc-be37-1ca88d23673a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": "{{URL}}users/{{USER_ID}}/low-sim-pos"
+          },
+          "response": []
+        },
+        {
+          "name": "Low stock count",
+          "_postman_id": "d6229ebb-5e82-4c1a-a4e8-4e324b527732",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": "{{URL}}users/{{USER_ID}}/low-stock-count"
+          },
+          "response": []
+        },
+        {
+          "name": "Low Balance POS List",
+          "_postman_id": "0dd261a3-9dd5-41c0-aaa8-a3ab4cf6750d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": "{{URL}}users/{{USER_ID}}/low-balance-pos"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "dc57f194-4875-4e93-815b-d1b21ce64903"
+    },
+    {
+      "name": "CheckIn",
+      "item": [
+        {
+          "name": "CSE CheckIn",
+          "_postman_id": "26a99cd3-436a-4b1f-8af2-326784b89578",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"tranx_id\": \"{{TRANX_ID}}\",\n\t\"longitude\": \"20.2548745\",\n\t\"latitude\": \"27.25487965847\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}cse/check-in"
+          },
+          "response": []
+        },
+        {
+          "name": "Generate QR",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "904c66c5-33c2-4c1f-b6ab-af917feeb9a8",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "",
+                  "if (jsonData.status) {",
+                  "    postman.setEnvironmentVariable(\"TRANX_ID\", jsonData.data.tranx_id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "e3e9140c-0901-4b35-8c3f-7239dfbad116",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"longitude\": \"20.2548745\",\n\t\"latitude\": \"27.25487965847\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}pos/generate-qr"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "9544092b-2a19-49fc-87b1-49f038135d26"
+    },
+    {
+      "name": "Sale Order_for CSE",
+      "item": [
+        {
+          "name": "Submit Sale Order",
+          "_postman_id": "3f77b20e-5361-4805-9e15-45679c840f09",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"sales_order\": [\n\t\t\t{\n\t\t\t\t\"item_type\": \"eload\",\n\t\t\t\t\"quantity\": 3,\n\t\t\t\t\"price\": 200,\n\t\t\t\t\"discount_percentage\": 10,\n\t\t\t\t\"after_discounted_price\": 455,\n\t\t\t\t\"serial_no\": 10\n\t\t\t}\n\t\t]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}sales-order/cse-user/1/pos-user/1"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "1cb805cd-ee92-4162-9f3b-50b24ebe9048",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "cf71734f-5fa2-45af-ad9d-1b5ec604f7c3",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "792fe16c-3ad1-4173-b328-ec21e4b53573",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Settings",
+          "_postman_id": "a5c9b3f3-0b8e-4e2b-a259-03cab80768d7",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "User-Agent",
+                "value": "Eagle/99.3",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"msisdn\": \"{{MSISDN}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}users/settings"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "3568db57-6c3b-447a-a159-bc7ff778d404"
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Notification Devices",
+          "_postman_id": "d29ed41e-3050-47c5-8992-6196e9a19b7d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "token": "{{ACCESS_TOKEN}}"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"rersrersrrersr\",\n  \"device_model\": \"tetstststte\",\n  \"device_id\": \"tetetettttstetts\",\n  \"user_id\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{URL}}notification/devices"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "6399479d-6b66-45a3-9c83-d49a0a55c96e"
+    },
+    {
+      "name": "achievements?period=this_month",
+      "_postman_id": "fc5143f6-3eb9-45f2-a061-43e9b7bdabac",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{ACCESS_TOKEN}}"
+          }
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer 51456838b22f4018e5c3992f42aa4dde34f7f890d9af89825d8d59df6f4c5db0"
+          },
+          {
+            "key": "User-Agent",
+            "value": "Eagle/99.3"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en_US"
+          },
+          {
+            "key": "Connection",
+            "value": "Keep-Alive"
+          },
+          {
+            "key": "Accept-Encoding",
+            "value": "gzip"
+          }
+        ],
+        "url": {
+          "raw": "{{URL}}users/73/achievements?period=this_month",
+          "host": [
+            "{{URL}}users"
+          ],
+          "path": [
+            "73",
+            "achievements"
+          ],
+          "query": [
+            {
+              "key": "period",
+              "value": "this_month"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "achievements?period=yesterday",
+      "_postman_id": "a3781adf-f451-4d3f-9352-3860a0a140a3",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{ACCESS_TOKEN}}"
+          }
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer 51456838b22f4018e5c3992f42aa4dde34f7f890d9af89825d8d59df6f4c5db0"
+          },
+          {
+            "key": "User-Agent",
+            "value": "Eagle/99.3"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en_US"
+          },
+          {
+            "key": "Connection",
+            "value": "Keep-Alive"
+          },
+          {
+            "key": "Accept-Encoding",
+            "value": "gzip"
+          }
+        ],
+        "url": {
+          "raw": "{{URL}}users/73/achievements?period=yesterday",
+          "host": [
+            "{{URL}}users"
+          ],
+          "path": [
+            "73",
+            "achievements"
+          ],
+          "query": [
+            {
+              "key": "period",
+              "value": "yesterday"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "achievements?period=this_week",
+      "_postman_id": "3f814257-c56b-4071-9013-16276ef30119",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{ACCESS_TOKEN}}"
+          }
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer 51456838b22f4018e5c3992f42aa4dde34f7f890d9af89825d8d59df6f4c5db0"
+          },
+          {
+            "key": "User-Agent",
+            "value": "Eagle/99.3"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en_US"
+          },
+          {
+            "key": "Connection",
+            "value": "Keep-Alive"
+          },
+          {
+            "key": "Accept-Encoding",
+            "value": "gzip"
+          }
+        ],
+        "url": {
+          "raw": "{{URL}}users/73/achievements?period=this_week",
+          "host": [
+            "{{URL}}users"
+          ],
+          "path": [
+            "73",
+            "achievements"
+          ],
+          "query": [
+            {
+              "key": "period",
+              "value": "this_week"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "banners",
+      "_postman_id": "9edf55ca-7a04-4978-9b86-8d0784e9059a",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{ACCESS_TOKEN}}"
+          }
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer 51456838b22f4018e5c3992f42aa4dde34f7f890d9af89825d8d59df6f4c5db0"
+          },
+          {
+            "key": "User-Agent",
+            "value": "Eagle/99.3"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en_US"
+          },
+          {
+            "key": "Connection",
+            "value": "Keep-Alive"
+          },
+          {
+            "key": "Accept-Encoding",
+            "value": "gzip"
+          }
+        ],
+        "url": "{{URL}}users/73/banners"
+      },
+      "response": []
+    },
+    {
+      "name": "usim/otp/generate",
+      "_postman_id": "1b31f0f1-bf25-414a-87d6-191b1995658c",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer 38066b5a30869fac3cedf2ac9a0bb9ecff82ec0b5c3bd018045fd8b2c97171be"
+          },
+          {
+            "key": "User-Agent",
+            "value": "Eagle/99.3"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en_US"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json; charset=UTF-8"
+          },
+          {
+            "key": "Connection",
+            "value": "Keep-Alive"
+          },
+          {
+            "key": "Accept-Encoding",
+            "value": "gzip"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"imsi\":998523988,\"old_sim_msisdn\":\"9772413943\",\"pos_user_id\":73}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://staging-eagleapi.telenor.com.mm/eagleapi/v1/usim/otp/generate"
+      },
+      "response": []
+    },
+    {
+      "name": "news/list/9790100595?offset=0",
+      "_postman_id": "463e72fa-e377-48d8-8010-a52f9a452b9e",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer 38066b5a30869fac3cedf2ac9a0bb9ecff82ec0b5c3bd018045fd8b2c97171be"
+          },
+          {
+            "key": "User-Agent",
+            "value": "Eagle/99.3"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en_US"
+          },
+          {
+            "key": "Connection",
+            "value": "Keep-Alive"
+          },
+          {
+            "key": "Accept-Encoding",
+            "value": "gzip"
+          }
+        ],
+        "url": {
+          "raw": "http://staging-eagleapi.telenor.com.mm/eagleapi/v1/news/list/9790100595?offset=0",
+          "protocol": "http",
+          "host": [
+            "staging-eagleapi",
+            "telenor",
+            "com",
+            "mm"
+          ],
+          "path": [
+            "eagleapi",
+            "v1",
+            "news",
+            "list",
+            "9790100595"
+          ],
+          "query": [
+            {
+              "key": "offset",
+              "value": "0"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "generate-qr_Previous",
+      "_postman_id": "9c827e6b-96fe-4a33-8791-054a370c2906",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer 38066b5a30869fac3cedf2ac9a0bb9ecff82ec0b5c3bd018045fd8b2c97171be"
+          },
+          {
+            "key": "User-Agent",
+            "value": "Eagle/99.3"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en_US"
+          },
+          {
+            "key": "Connection",
+            "value": "Keep-Alive"
+          },
+          {
+            "key": "Accept-Encoding",
+            "value": "gzip"
+          }
+        ],
+        "url": "http://staging-eagleapi.telenor.com.mm/eagleapi/v1/users/73/generate-qr"
+      },
+      "response": []
+    },
+    {
+      "name": "salesperson_summary",
+      "_postman_id": "dd968401-7984-458e-b749-caec83eb8bfb",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{ACCESS_TOKEN}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer a8bb0a6d1c9e83ebed4f2ae650ee3474b5fdfa01a53533f8926ffedf822f72f6"
+          },
+          {
+            "key": "User-Agent",
+            "value": "Eagle/99.3"
+          },
+          {
+            "key": "Accept-Language",
+            "value": "en_US"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json; charset=UTF-8"
+          },
+          {
+            "key": "Connection",
+            "value": "Keep-Alive"
+          },
+          {
+            "key": "Accept-Encoding",
+            "value": "gzip"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"date\":1589353087}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "http://staging-eagleapi.telenor.com.mm/eagledev/v1/transactions/logs/pos/73/salesperson/144"
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "9ba450d0-f21b-4b02-b9ac-094d7f3a06fc",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "e4a8bdab-017a-45b1-8de6-65d939cdb8e5",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
