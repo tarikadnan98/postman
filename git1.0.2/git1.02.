@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Request Metho",
+			"name": "Request Method",
 			"item": [
 				{
 					"name": "GET Request",
