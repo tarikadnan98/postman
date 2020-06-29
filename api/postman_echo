@@ -21,7 +21,7 @@
                                     "",
                                     "try { ",
                                     "    responseJSON = JSON.parse(responseBody); ",
-                                    "    tests['response is valid JSON'] = false;",
+                                    "    tests['response is valid JSON'] = true;",
                                     "}",
                                     "catch (e) { ",
                                     "    responseJSON = {}; ",
