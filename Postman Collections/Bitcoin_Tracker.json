@@ -1,0 +1,23 @@
+{
+  "info": {
+    "_postman_id": "dc41c76a-6714-7a53-b3db-cf517f95776e",
+    "name": "Bitcoin Tracker",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "s",
+      "_postman_id": "fc0720da-58dd-595e-7c28-a0439e9317c6",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "url": "s"
+      },
+      "response": []
+    }
+  ]
+}
