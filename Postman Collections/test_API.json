@@ -1,0 +1,113 @@
+{
+  "info": {
+    "_postman_id": "0572ffc7-ef74-4125-b032-ae6ee8953997",
+    "name": "Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "e0a0ef86-c846-4b0d-ba76-c44ec5a77083",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "48ff01bf-347e-4e7b-a608-a72caaafd8b4",
+            "exec": [
+              "//postman.setNextRequest('Get OTP Bypass');",
+              "pm.sendRequest({",
+              "    url: pm.environment.get(\"URL\") + 'get/otp',",
+              "    method: 'POST',",
+              "    header: {",
+              "        \"Content-Type\": \"application/json\"",
+              "    },",
+              "    body: {",
+              "        mode: 'raw',",
+              "        raw: JSON.stringify({ msisdn: pm.environment.get(\"MSISDN\"), mpin: pm.environment.get(\"MPIN\") })",
+              "    }",
+              "}, function (err, res) {",
+              "    postman.setEnvironmentVariable(\"OTP\", res.json().data.otp);",
+              "",
+              "    pm.sendRequest({",
+              "        url: pm.environment.get(\"URL\") + 'verify-otp',",
+              "        method: 'POST',",
+              "        header: {",
+              "            \"Content-Type\": \"application/json\"",
+              "        },",
+              "        body: {",
+              "            mode: 'raw',",
+              "            raw: JSON.stringify({ msisdn: pm.environment.get(\"MSISDN\"), otp: pm.environment.get(\"OTP\") })",
+              "        }",
+              "    }, function (err, res) {",
+              "        if (res.json().status) {",
+              "            postman.setEnvironmentVariable(\"ACCESS_TOKEN\", res.json().data.access_token);",
+              "            postman.setEnvironmentVariable(\"USER_ID\", res.json().data.user_id);",
+              "        }",
+              "    });",
+              "});",
+              "",
+              "// pm.test(\"Status code is 200\", function () {",
+              "//     pm.response.to.have.status(200);",
+              "// });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "bd0474ae-8928-46bf-b043-66d4db738332",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{ACCESS_TOKEN}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "User-Agent",
+            "type": "text",
+            "value": "Eagle/99.3"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "loginType",
+              "type": "text",
+              "value": "partner"
+            },
+            {
+              "key": "msisdn",
+              "type": "text",
+              "value": "{{MSISDN}}"
+            },
+            {
+              "key": "mpin",
+              "type": "text",
+              "value": "{{MPIN}}"
+            }
+          ],
+          "options": {
+            "formdata": {}
+          }
+        },
+        "url": "{{URL}}login"
+      },
+      "response": []
+    }
+  ]
+}
