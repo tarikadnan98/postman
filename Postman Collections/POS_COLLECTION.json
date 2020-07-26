@@ -110,7 +110,7 @@
                 "formdata": {}
               }
             },
-            "url": "{{URL}}login/////"
+            "url": "{{URL}}login"
           },
           "response": [
             {
