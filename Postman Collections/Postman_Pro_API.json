@@ -1,0 +1,129 @@
+{
+  "info": {
+    "_postman_id": "61d55d46-2a27-48a4-9c3f-c4008eb04901",
+    "name": "Postman Pro API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Fetch Collections",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "d256d45d-5b2a-4103-9d83-3fbd7db93492",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "131d5e71-604b-4534-9a65-43c6429dc067",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "apikey",
+          "apikey": {
+            "value": "{{API_KEY}}",
+            "in": "query",
+            "key": "apikey"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "url": "https://api.getpostman.com/collections/"
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch Specific Collection Details",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "4531d244-0171-4159-b470-4f2cde94e64e",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "d203f677-5ba0-4025-a035-96c9c413797f",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "apikey",
+          "apikey": {
+            "value": "{{API_KEY}}",
+            "in": "query",
+            "key": "apikey"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "url": "https://api.getpostman.com/collections/9375150-539b23d8-4d72-47d4-9e40-3259848cc9d3"
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch Environments",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "5ccbfbea-922c-4c79-8d48-1cc36b9eab7d",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "72012d6a-fc0e-4f95-bbef-92893638a340",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "apikey",
+          "apikey": {
+            "value": "{{API_KEY}}",
+            "in": "query",
+            "key": "apikey"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "url": "https://api.getpostman.com/environments"
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch Specific Environments Details",
+      "_postman_id": "cd84cf4f-ca88-4a78-87b5-628683bb4f5a",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "apikey",
+          "apikey": {
+            "value": "{{API_KEY}}",
+            "in": "query",
+            "key": "apikey"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "url": "https://api.getpostman.com/environments/{{uid/id}}"
+      },
+      "response": []
+    }
+  ]
+}
