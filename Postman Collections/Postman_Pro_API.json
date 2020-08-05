@@ -25,12 +25,7 @@
       },
       "request": {
         "auth": {
-          "type": "apikey",
-          "apikey": {
-            "value": "{{API_KEY}}",
-            "in": "query",
-            "key": "apikey"
-          }
+          "type": "noauth"
         },
         "method": "GET",
         "header": [],
