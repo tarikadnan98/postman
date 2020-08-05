@@ -34,7 +34,24 @@
         },
         "method": "GET",
         "header": [],
-        "url": "https://api.getpostman.com/collections/"
+        "url": {
+          "raw": "https://api.getpostman.com/collections?apikey={{API_KEY}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "getpostman",
+            "com"
+          ],
+          "path": [
+            "collections"
+          ],
+          "query": [
+            {
+              "key": "apikey",
+              "value": "{{API_KEY}}"
+            }
+          ]
+        }
       },
       "response": []
     },
