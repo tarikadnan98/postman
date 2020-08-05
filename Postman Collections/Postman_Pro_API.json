@@ -116,16 +116,28 @@
       },
       "request": {
         "auth": {
-          "type": "apikey",
-          "apikey": {
-            "value": "{{API_KEY}}",
-            "in": "query",
-            "key": "apikey"
-          }
+          "type": "noauth"
         },
         "method": "GET",
         "header": [],
-        "url": "https://api.getpostman.com/environments"
+        "url": {
+          "raw": "https://api.getpostman.com/environments?apikey={{API_KEY}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "getpostman",
+            "com"
+          ],
+          "path": [
+            "environments"
+          ],
+          "query": [
+            {
+              "key": "apikey",
+              "value": "{{API_KEY}}"
+            }
+          ]
+        }
       },
       "response": []
     },
