@@ -75,16 +75,29 @@
       },
       "request": {
         "auth": {
-          "type": "apikey",
-          "apikey": {
-            "value": "{{API_KEY}}",
-            "in": "query",
-            "key": "apikey"
-          }
+          "type": "noauth"
         },
         "method": "GET",
         "header": [],
-        "url": "https://api.getpostman.com/collections/9375150-539b23d8-4d72-47d4-9e40-3259848cc9d3"
+        "url": {
+          "raw": "https://api.getpostman.com/collections/9375150-539b23d8-4d72-47d4-9e40-3259848cc9d3?apikey={{API_KEY}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "getpostman",
+            "com"
+          ],
+          "path": [
+            "collections",
+            "9375150-539b23d8-4d72-47d4-9e40-3259848cc9d3"
+          ],
+          "query": [
+            {
+              "key": "apikey",
+              "value": "{{API_KEY}}"
+            }
+          ]
+        }
       },
       "response": []
     },
