@@ -19,7 +19,7 @@
           }
         }
       ],
-      "_postman_id": "131d5e71-604b-4534-9a65-43c6429dc067",
+      "id": "131d5e71-604b-4534-9a65-43c6429dc067",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
       },
@@ -64,7 +64,7 @@
           }
         }
       ],
-      "_postman_id": "d203f677-5ba0-4025-a035-96c9c413797f",
+      "id": "d203f677-5ba0-4025-a035-96c9c413797f",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
       },
@@ -110,7 +110,7 @@
           }
         }
       ],
-      "_postman_id": "72012d6a-fc0e-4f95-bbef-92893638a340",
+      "id": "72012d6a-fc0e-4f95-bbef-92893638a340",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
       },
@@ -143,7 +143,7 @@
     },
     {
       "name": "Fetch Specific Environments Details",
-      "_postman_id": "cd84cf4f-ca88-4a78-87b5-628683bb4f5a",
+      "id": "cd84cf4f-ca88-4a78-87b5-628683bb4f5a",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
       },
